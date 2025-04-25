@@ -1,8 +1,4 @@
-using ElixirControlPlatform.API.CustomerManagement.Application.Internal.CommandServices;
-using ElixirControlPlatform.API.CustomerManagement.Application.Internal.QueryServices;
-using ElixirControlPlatform.API.CustomerManagement.Domain.Repositories;
-using ElixirControlPlatform.API.CustomerManagement.Domain.Services;
-using ElixirControlPlatform.API.CustomerManagement.Infrastructure.Persistence.EFC.Repositories;
+
 using ElixirControlPlatform.API.IAM.Application.Internal.CommandServices;
 using ElixirControlPlatform.API.IAM.Application.Internal.OutboundServices;
 using ElixirControlPlatform.API.IAM.Application.Internal.QueryServices;
@@ -12,26 +8,6 @@ using ElixirControlPlatform.API.IAM.Infrastructure.Hashing.BCrypt.Services;
 using ElixirControlPlatform.API.IAM.Infrastructure.Persistence.EFC.Repositories;
 using ElixirControlPlatform.API.IAM.Infrastructure.Tokens.JWT.Configuration;
 using ElixirControlPlatform.API.IAM.Infrastructure.Tokens.JWT.Services;
-using ElixirControlPlatform.API.InventoryManagement.Application.Internal.CommandServices;
-using ElixirControlPlatform.API.InventoryManagement.Application.Internal.QueryServices;
-using ElixirControlPlatform.API.InventoryManagement.Domain.Repositories;
-using ElixirControlPlatform.API.InventoryManagement.Domain.Services;
-using ElixirControlPlatform.API.InventoryManagement.Infrastructure.Persistence.EFC.Repositories;
-using ElixirControlPlatform.API.OrderManagement.Application.Internal.CommandServices;
-using ElixirControlPlatform.API.OrderManagement.Application.Internal.QueryServices;
-using ElixirControlPlatform.API.OrderManagement.Domain.Repositories;
-using ElixirControlPlatform.API.OrderManagement.Domain.Services;
-using ElixirControlPlatform.API.OrderManagement.Infrastructure.Persistence.EFC.Repositories;
-using ElixirControlPlatform.API.OrderRequest.Application.Internal.CommandServices;
-using ElixirControlPlatform.API.OrderRequest.Application.Internal.QueryServices;
-using ElixirControlPlatform.API.OrderRequest.Domain.Repositories;
-using ElixirControlPlatform.API.OrderRequest.Domain.Services;
-using ElixirControlPlatform.API.OrderRequest.Infrastructure.Persistence.EFC.Repositories;
-using ElixirControlPlatform.API.ProductManagement.Application.Internal.CommandServices;
-using ElixirControlPlatform.API.ProductManagement.Application.Internal.QueryServices;
-using ElixirControlPlatform.API.ProductManagement.Domain.Repositories;
-using ElixirControlPlatform.API.ProductManagement.Domain.Services;
-using ElixirControlPlatform.API.ProductManagement.Infrastructure.Persistence.EFC.Repositories;
 using ElixirControlPlatform.API.Profiles.Application.Internal.CommandServices;
 using ElixirControlPlatform.API.Profiles.Application.Internal.QueryServices;
 using ElixirControlPlatform.API.Profiles.Domain.Repositories;
@@ -119,53 +95,6 @@ builder.Services.AddScoped<IProfileRepository, ProfileRepository>();
 builder.Services.AddScoped<IProfileCommandService, ProfileCommandService>();
 builder.Services.AddScoped<IProfileQueryService, ProfileQueryService>();
 
-//----------------- Product -----------------
-
-builder.Services.AddScoped<IProductRepository, ProductRepository>();
-builder.Services.AddScoped<IProductCommandService, ProductCommandService>();
-builder.Services.AddScoped<IProductQueryService, ProductQueryService>();
-
-
-//===================================== END GONZALO Bounded Context ===============================
-
-
-
-
-//===================================== 2. GUSTAVO Bounded Context ================================
-builder.Services.AddScoped<IClientCommandService, ClientCommandService>();
-builder.Services.AddScoped<IClientRepository, ClientRepository>();
-builder.Services.AddScoped<IClientQueryService, ClientQueryService>();
-//===================================== END GUSTAVO Bounded Context ===============================
-
-
-
-
-//===================================== 3. LUIS Bounded Context ===================================
-builder.Services.AddScoped<IInventoryCommandService, InventoryCommandService>();
-builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();
-builder.Services.AddScoped<IInventoryQueryService, InventoryQueryService>();
-
-//===================================== END LUIS Bounded Context ==================================
-
-
-
-
-//===================================== 4. OSCAR Bounded Context ==================================
-
-builder.Services.AddScoped<IOrderRequestsRepository, OrderRequestsRepository>();
-builder.Services.AddScoped<IOrderRequestsCommandService, OrderRequestsCommandService>();
-builder.Services.AddScoped<IOrderRequestsQueryService, OrderRequestsQueryService>();
-
-//===================================== END OSCAR Bounded Context =================================
-
-
-
-
-//===================================== 5. VICENTE Bounded Context ================================
-builder.Services.AddScoped<IOrderCommandService, OrderCommandService>();
-builder.Services.AddScoped<IOrderRepository, OrderRepository>();
-builder.Services.AddScoped<IOrderQueryService, OrderQueryService>();
-//===================================== END VICENTE Bounded Context ===============================
 
 
 // IAM Bounded Context Dependency Injection Configuration

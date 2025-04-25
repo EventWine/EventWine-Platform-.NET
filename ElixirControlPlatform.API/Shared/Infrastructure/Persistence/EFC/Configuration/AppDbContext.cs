@@ -1,9 +1,5 @@
-using ElixirControlPlatform.API.CustomerManagement.Domain.Model.Aggregates;
+
 using ElixirControlPlatform.API.IAM.Domain.Model.Aggregates;
-using ElixirControlPlatform.API.InventoryManagement.Domain.Model.Aggregate;
-using ElixirControlPlatform.API.OrderManagement.Domain.Model.Aggregate;
-using ElixirControlPlatform.API.OrderRequest.Domain.Model.Aggregate;
-using ElixirControlPlatform.API.ProductManagement.Domain.Model.Aggregate;
 using ElixirControlPlatform.API.Profiles.Domain.Model.Aggregate;
 using ElixirControlPlatform.API.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using ElixirControlPlatform.API.WinemakingProcess.Domain.Model.Aggregate;
@@ -167,30 +163,6 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
          .OnDelete(DeleteBehavior.Cascade);
 
       
-      //---------------- CONFIGURATION DE PRODUCTS ----------------
-      
-      builder.Entity<Product>().HasKey(p => p.Id);
-      builder.Entity<Product>().Property(p => p.Id).IsRequired().ValueGeneratedOnAdd();
-      
-      builder.Entity<Product>().Property(p => p.ProfileId).IsRequired();
-      
-      builder.Entity<Product>().Property(p => p.ProductName).IsRequired().HasMaxLength(50);
-      builder.Entity<Product>().Property(p => p.GrapeVariety).IsRequired().HasMaxLength(50);
-      builder.Entity<Product>().Property(p => p.WineType).IsRequired().HasMaxLength(50);
-      builder.Entity<Product>().Property(p => p.Origin).IsRequired().HasMaxLength(50);
-      builder.Entity<Product>().Property(p => p.AlcoholContent).IsRequired();
-      builder.Entity<Product>().Property(p => p.Price).IsRequired();
-      builder.Entity<Product>().Property(p => p.FoodPairing).IsRequired().HasMaxLength(50);
-      builder.Entity<Product>().Property(p => p.Quantity).IsRequired();
-      builder.Entity<Product>().Property(p => p.ImageUrl).IsRequired().HasMaxLength(50);
-      
-      //---------------- Relación muchos a uno con profile ----------------
-      builder.Entity<Product>()
-         .HasOne(p => p.Profile)
-         .WithMany(p => p.Products)
-         .HasForeignKey(p => p.ProfileId)
-         .OnDelete(DeleteBehavior.Cascade);
-      
       
       
       
@@ -199,96 +171,7 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
       //===============================================================================================
          
       
-      //===============================================================================================
-      //===================================== 2. GUSTAVO BOUNDED CONTEXT ==============================
-      builder.Entity<Client>().HasKey(f => f.Id);
-      builder.Entity<Client>().Property(f => f.Id).IsRequired().ValueGeneratedOnAdd();
-      builder.Entity<Client>().Property(f => f.PersonName).IsRequired().HasMaxLength(100);
-      builder.Entity<Client>().Property(f => f.Dni).IsRequired();
-      builder.Entity<Client>().Property(f => f.Email).IsRequired().HasMaxLength(100);
-      builder.Entity<Client>().Property(f => f.BusinessName).IsRequired().HasMaxLength(100);
-      builder.Entity<Client>().Property(f => f.Phone).IsRequired();
-      builder.Entity<Client>().Property(f => f.Address).IsRequired().HasMaxLength(100);
-      builder.Entity<Client>().Property(f => f.Country).IsRequired().HasMaxLength(100);
-      builder.Entity<Client>().Property(f => f.City).IsRequired().HasMaxLength(100);
-      builder.Entity<Client>().Property(f => f.Ruc).IsRequired();
-         
-      //===================================== END GUSTAVO Bounded Context ===============================
-         
       
-      //================================================================================================
-      //===================================== 3. LUIS BOUNDED CONTEXT ==================================
-      builder.Entity<Inventory>().HasKey(f => f.Id);
-      builder.Entity<Inventory>().Property(f => f.Id).IsRequired().ValueGeneratedOnAdd();
-   
-      builder.Entity<Inventory>().Property(f => f.Name).IsRequired().HasMaxLength(100);
-      builder.Entity<Inventory>().Property(f => f.Type).IsRequired().HasMaxLength(100);
-      builder.Entity<Inventory>().Property(f => f.Unit).IsRequired().HasMaxLength(100);
-      builder.Entity<Inventory>().Property(f => f.Expiration).IsRequired();
-      builder.Entity<Inventory>().Property(f => f.Supplier).IsRequired().HasMaxLength(100);
-      builder.Entity<Inventory>().Property(f => f.CostPerUnit).IsRequired();
-      builder.Entity<Inventory>().Property(f => f.LastUpdated).IsRequired();
-      builder.Entity<Inventory>().Property(f => f.Quantity).IsRequired();
-      //===================================== END BOUNDED CONTEXT ======================================
-      //================================================================================================
-         
-      
-      //================================================================================================
-      //===================================== 4. OSCAR BOUNDED CONTEXT =================================
-       
-      builder.Entity<OrderRequests>().HasKey(b => b.Id);
-      builder.Entity<OrderRequests>().Property(b => b.Id).IsRequired().ValueGeneratedOnAdd();
-
-      builder.Entity<OrderRequests>().Property(b => b.Quantity).IsRequired();
-      builder.Entity<OrderRequests>().Property(b => b.Price).IsRequired();
-      builder.Entity<OrderRequests>().Property(b => b.Status);
-      builder.Entity<OrderRequests>().Property(b => b.OrderNumber).IsRequired().HasMaxLength(50);
-      builder.Entity<OrderRequests>().Property(b => b.OrderDate).IsRequired();
-      builder.Entity<OrderRequests>().Property(b => b.TransportCondition).IsRequired().HasMaxLength(80);
-      builder.Entity<OrderRequests>().Property(b => b.PaymentMethod).IsRequired().HasMaxLength(60);
-      builder.Entity<OrderRequests>().Property(b => b.ConsumerPhone).IsRequired().HasMaxLength(50);
-      builder.Entity<OrderRequests>().Property(b => b.ProducerPhone).IsRequired().HasMaxLength(50);
-      builder.Entity<OrderRequests>().Property(b => b.PaymentTerms).IsRequired().HasMaxLength(80);
-      builder.Entity<OrderRequests>().Property(b => b.Date).IsRequired().HasMaxLength(50);
-      builder.Entity<OrderRequests>().Property(b => b.DeliveryDate).IsRequired().HasMaxLength(50);
-      builder.Entity<OrderRequests>().Property(b => b.Type).IsRequired().HasMaxLength(50);
-         
-      //===================================== END OSCAR BOUNDED CONTEXT ================================
-      //================================================================================================
-         
-      
-      
-      //================================================================================================
-      //===================================== 5. VICENTE BOUNDED CONTEXT ===============================
-      builder.Entity<Order>().HasKey(o => o.Id);
-      builder.Entity<Order>().Property(o => o.Id).IsRequired().ValueGeneratedOnAdd();
-      
-      builder.Entity<Order>().Property(o => o.ProfileId).IsRequired();
-      
-      builder.Entity<Order>().Property(o => o.BusinessName).IsRequired().HasMaxLength(50);
-      builder.Entity<Order>().Property(o => o.RequestedDate).IsRequired();
-      builder.Entity<Order>().Property(o => o.Quantity).IsRequired();
-      builder.Entity<Order>().Property(o => o.Phone).IsRequired();
-      builder.Entity<Order>().Property(o => o.Status).IsRequired();
-      builder.Entity<Order>().Property(o => o.ContactName).IsRequired();
-      builder.Entity<Order>().Property(o => o.ProductName).IsRequired();
-      builder.Entity<Order>().Property(o => o.TransportCondition).IsRequired();
-      builder.Entity<Order>().Property(o => o.PaymentTerms).IsRequired();
-      builder.Entity<Order>().Property(o => o.ContactName).IsRequired();
-      builder.Entity<Order>().Property(o => o.Address).IsRequired();
-      builder.Entity<Order>().Property(o => o.Email).IsRequired();
-      builder.Entity<Order>().Property(o => o.Ruc).IsRequired();
-      builder.Entity<Order>().Property(o => o.WineType).IsRequired();
-      builder.Entity<Order>().Property(o => o.PaymentMethod).IsRequired();
-      builder.Entity<Order>().Property(o => o.DeliveryDate).IsRequired();
-      
-      //---------------- Relación muchos a uno con profile ----------------
-      builder.Entity<Order>()
-         .HasOne(o => o.Profile)
-         .WithMany(o => o.Orders)
-         .HasForeignKey(o => o.ProfileId)
-         .OnDelete(DeleteBehavior.Cascade);
-         
       //===================================== END VICENTE BOUNDED CONTEXT ===============================
       //=================================================================================================
    

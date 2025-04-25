@@ -32,9 +32,4 @@
 
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="ProductManagement\Domain\Model\Entities\" />
-      <Folder Include="ProductManagement\Domain\Model\ValueObjects\" />
-    </ItemGroup>
-
 </Project>

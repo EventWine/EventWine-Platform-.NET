@@ -1,6 +1,4 @@
 ﻿using ElixirControlPlatform.API.IAM.Domain.Model.Aggregates;
-using ElixirControlPlatform.API.ProductManagement.Domain.Model.Aggregate;
-using ElixirControlPlatform.API.OrderManagement.Domain.Model.Aggregate;
 using ElixirControlPlatform.API.Profiles.Domain.Model.Commands;
 using ElixirControlPlatform.API.Profiles.Domain.Model.ValueObjects;
 using ElixirControlPlatform.API.WinemakingProcess.Domain.Model.Aggregate;
@@ -13,9 +11,6 @@ public partial class Profile
     public Guid Id { get; }
     
     public ICollection<Batch> Batches { get; set; } // Relación uno a muchos con Batch
-    public ICollection<Product> Products { get; set; } // Relación uno a muchos con Product
-    public ICollection<Order> Orders { get; set; } // Relación uno a muchos con Order
-    
     
     public int UserId { get; set; }
     public User User { get; set; } // Relación uno a uno con User
