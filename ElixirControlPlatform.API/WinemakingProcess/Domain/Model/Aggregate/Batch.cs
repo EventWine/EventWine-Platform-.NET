@@ -34,6 +34,8 @@ public partial class Batch
     public Clarification Clarification { get; private set; }
     public Pressing Pressing { get; private set; }
     public Aging Aging { get; private set; }
+    
+    public Bottling Bottling { get; private set; }
     //=========== end Winemaking Process - Propiedad de navegación ==========
     
     
@@ -173,7 +175,29 @@ public partial class Batch
         Aging = new Aging(Id, command.BarrelType, command.StartDate, command.EndDate, command.AgingDurationMonths, command.InspectionsPerformed, command.InspectionResult);
     }
     //------------------------ end Aging ----------------------------
+    
+    //============================= BOTTLING =============================
+    
+    public void AddBottlingByBatch(int batchId, string bottlingDate, string bottleSizeMl, int numberOfBottles,
+        string labelType, string corkType)
+    {
+        Bottling = new Bottling(batchId, bottlingDate, bottleSizeMl, numberOfBottles, labelType, corkType);
+        this.Status = CurrentBatchStatus.Bottling;
+    }
+    
+    public void DeleteBottlingByBatch()
+    {
+        Bottling = null;
+        this.Status = CurrentBatchStatus.Aging;
+    }
+    
+    public void UpdateBottlingByBatch(UpdateBottlingByBatchCommand command)
+    {
+        Bottling = new Bottling(Id, command.BottlingDate, command.BottleSizeMl, command.NumberOfBottles, command.LabelType, command.CorkType);
+    }
 
+    //------------------------ end Bottling ----------------------------
+    
     //========================================================================
     //======================== end Winemaking Process ========================
     //========================================================================

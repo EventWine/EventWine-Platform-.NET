@@ -37,5 +37,11 @@ public interface IBatchCommandService
     public Task<Batch?> Handle(UpdateAgingByBatchCommand command, int batch);
     // =========== end Aging
     
+    //=========== Bottling
+    public Task<Batch?> Handle(AddBottlingToBatchCommand command, int batchId);
+    public Task<Batch?> Handle(DeleteBottlingByBatchCommand command);
+    public Task<Batch?> Handle(UpdateBottlingByBatchCommand command, int batch);
+    // =========== end Bottling
+    
     
 }

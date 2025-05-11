@@ -348,5 +348,63 @@ public class WinemakingProcessByBatchController(IBatchQueryService batchQuerySer
         
         return Ok(resource);
     }
+    
+    //============================================== END BATCH - AGING ======================================
+    
+    //================================================= BATCH - BOTTLING ==========================================
+    // GET -----------------------------------------------------------------------------------------------------------
+    [HttpGet("batch/{batchId:int}/bottling")]
+    [SwaggerOperation(
+        Summary = "Get a Bottling by Batch",
+        Description = "Get a Bottling by Batch",
+        OperationId = "GetBottlingByBatch"
+    )]
+    [SwaggerResponse(StatusCodes.Status200OK, "The Bottling was successfully retrieved", typeof(BottlingResource))]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "The Bottling was not found")]
+    public async Task<IActionResult> GetBottlingByBatch(int batchId)
+    {
+        var bottling = await batchQueryService.Handle(new GetBottlingByBatchIdQuery(batchId));
+        if (bottling is null) return NotFound();
+        var bottlingResource = BottlingResourceFromEntityAssembler.ToResourceFromEntity(bottling);
+        return Ok(bottlingResource);
+    }
+    
+    // POST ---------------------------------------------------------------------------------------------------------
+    [HttpPost("{batchId:int}/bottling")]
+    [SwaggerOperation(
+        Summary = "Add a Bottling to a Batch",
+        Description = "Add a Bottling to a Batch",
+        OperationId = "AddBottlingToBatch"
+    )]
+    [SwaggerResponse(StatusCodes.Status201Created, "The Bottling was successfully added to the Batch", typeof(BottlingResource))]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "The Bottling was not added to the Batch")]
+    public async Task<IActionResult> AddBottlingToBatch([FromBody] AddBottlingToBatchResource resource, int batchId)
+    {
+        var addBottlingToBatchCommand = AddBottlingToBatchCommandFromResourceAssembler.toCommandFromResource(resource);
+        var batch = await batchCommandService.Handle(addBottlingToBatchCommand, batchId);
+        if (batch is null) return BadRequest();
+        
+        var bottlingResource = BottlingResourceFromEntityAssembler.ToResourceFromEntity(batch.Bottling);
+        
+        return CreatedAtAction(nameof(GetBottlingByBatch), new { batchId = batch.Id }, bottlingResource);
+    }
+    
+    // DELETE -------------------------------------------------------------------------------------------------------
+    [HttpDelete("{batchId:int}/bottling")]
+    [SwaggerOperation(
+        Summary = "Delete a Bottling by Batch",
+        Description = "Delete a Bottling by Batch",
+        OperationId = "DeleteBottlingByBatch"
+    )]
+    [SwaggerResponse(StatusCodes.Status204NoContent, "The Bottling was successfully deleted")]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "The Bottling was not found")]
+    public async Task<IActionResult> DeleteBottlingByBatch(int batchId)
+    {
+        var deleteBottlingByBatchCommand = new DeleteBottlingByBatchCommand(batchId);
+        var batch = await batchCommandService.Handle(deleteBottlingByBatchCommand);
+        if (batch is null) return NotFound();
+        return Ok(new { title = "Delete Bottling", Message = $"Bottling for batch {batchId} was successfully deleted" });
+    }
+    
 }
 

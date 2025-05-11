@@ -42,4 +42,9 @@ public class BatchQueryService(IBatchRepository batchRepository) : IBatchQuerySe
     {
         return await batchRepository.GetAgingByBatchAsync(query.BatchId);
     }
+    
+    public async Task<Bottling?> Handle(GetBottlingByBatchIdQuery query)
+    {
+        return await batchRepository.GetBottlingByBatchAsync(query.BatchId);
+    }
 }

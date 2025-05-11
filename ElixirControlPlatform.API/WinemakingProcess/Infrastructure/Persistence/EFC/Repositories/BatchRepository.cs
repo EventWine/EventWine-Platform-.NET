@@ -40,4 +40,10 @@ public class BatchRepository(AppDbContext context) : BaseRepository<Batch>(conte
             .FirstOrDefaultAsync(aging => aging.BatchId == batchId);
     }
     
+    public async Task<Bottling?> GetBottlingByBatchAsync(int batchId)
+    {
+        return await Context.Set<Bottling>()
+            .FirstOrDefaultAsync(bottling => bottling.BatchId == batchId);
+    }
+    
 }

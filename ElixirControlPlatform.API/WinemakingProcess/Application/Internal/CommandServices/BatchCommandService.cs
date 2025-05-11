@@ -266,4 +266,55 @@ public class BatchCommandService(IBatchRepository batchRepository, IUnitOfWOrk u
         return batch;
     }
     //======================== end Aging ========================
+    
+    //========================== Bottling ==========================
+    
+    public async Task<Batch?> Handle(AddBottlingToBatchCommand command, int batchId)
+    {
+        var batch = await batchRepository.FindByIdAsync(batchId);
+        if (batch is null) throw new Exception("Batch not found");
+        if (batch.Status != CurrentBatchStatus.Aging) throw new Exception("The batch must first go through the aging stage");
+        
+        batch.AddBottlingByBatch(
+            batchId,
+            command.BottlingDate, 
+            command.BottleSizeMl, 
+            command.NumberOfBottles, 
+            command.LabelType, 
+            command.CorkType);
+        
+        batchRepository.Update(batch);
+        await unitOfWork.CompleteAsync();
+        return batch;
+    }
+    
+    public async Task<Batch?> Handle(DeleteBottlingByBatchCommand command)
+    {
+        var batch = await batchRepository.FindByIdAsync(command.BatchId);
+        var bottling = await batchRepository.GetBottlingByBatchAsync(command.BatchId);
+        
+        if (batch is null) throw new Exception("Batch not found");
+        if (bottling is null) throw new Exception("The batch has no registered bottling");
+        
+        batch.DeleteBottlingByBatch();
+        
+        batchRepository.Remove(batch);
+        await unitOfWork.CompleteAsync();
+        return batch;
+    }
+    
+    public async Task<Batch?> Handle(UpdateBottlingByBatchCommand command, int batchId)
+    {
+        var batch = await batchRepository.FindByIdAsync(batchId);
+        if (batch is null) throw new Exception("Batch not found");
+        
+        var bottling = await batchRepository.GetBottlingByBatchAsync(batchId);
+        if (bottling is null) throw new Exception("The batch has no registered bottling");
+        
+        batch.UpdateBottlingByBatch(command);
+        
+        batchRepository.Update(batch);
+        await unitOfWork.CompleteAsync();
+        return batch;
+    }
 }

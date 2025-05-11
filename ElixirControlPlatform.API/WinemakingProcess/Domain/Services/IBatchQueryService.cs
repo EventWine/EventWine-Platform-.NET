@@ -18,4 +18,6 @@ public interface IBatchQueryService
     Task<Pressing?> Handle(GetPressingByBatchIdQuery query);
     
     Task<Aging?> Handle(GetAgingByBatchIdQuery query);
+    
+    Task<Bottling?> Handle(GetBottlingByBatchIdQuery query);
 }
