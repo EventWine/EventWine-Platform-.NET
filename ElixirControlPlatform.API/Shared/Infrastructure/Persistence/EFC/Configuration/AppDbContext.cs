@@ -116,6 +116,20 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
       builder.Entity<Batch>()
          .HasOne(b => b.Aging);
       
+      //---------------- CONFIGURATION DE BOTTLING ----------------
+      builder.Entity<Bottling>().HasKey(z => z.Id);
+      builder.Entity<Bottling>().Property(z => z.Id).IsRequired().ValueGeneratedOnAdd();
+      
+      builder.Entity<Bottling>().Property(z => z.BatchId).IsRequired();
+      builder.Entity<Bottling>().Property(z => z.BottlingDate).IsRequired();
+      builder.Entity<Bottling>().Property(z => z.BottleSizeMl).IsRequired();
+      builder.Entity<Bottling>().Property(z => z.NumberOfBottles).IsRequired();
+      builder.Entity<Bottling>().Property(z => z.LabelType).IsRequired().HasMaxLength(50);
+      builder.Entity<Bottling>().Property(z => z.CorkType).IsRequired().HasMaxLength(50);
+      
+      //---------------- Relación uno a uno con batch ----------------
+      builder.Entity<Batch>()
+         .HasOne(b => b.Bottling);
       
       //---------------- CONFIGURATION DE PROFILES ----------------
       builder.Entity<Profile>().HasKey(p => p.Id);

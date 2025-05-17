@@ -5,7 +5,7 @@ namespace ElixirControlPlatform.API.WinemakingProcess.Interfaces.REST.Transform;
 
 public static class AddBottlingToBatchCommandFromResourceAssembler
 {
-    public static AddBottlingToBatchCommand toCommandFromResource(AddBottlingToBatchResource resource)
+    public static AddBottlingToBatchCommand ToCommandFromResource(AddBottlingToBatchResource resource)
     {
         return new AddBottlingToBatchCommand(
             BottlingDate: resource.BottlingDate,

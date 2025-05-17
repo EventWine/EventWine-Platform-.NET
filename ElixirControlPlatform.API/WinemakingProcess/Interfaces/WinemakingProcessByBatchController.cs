@@ -380,7 +380,7 @@ public class WinemakingProcessByBatchController(IBatchQueryService batchQuerySer
     [SwaggerResponse(StatusCodes.Status400BadRequest, "The Bottling was not added to the Batch")]
     public async Task<IActionResult> AddBottlingToBatch([FromBody] AddBottlingToBatchResource resource, int batchId)
     {
-        var addBottlingToBatchCommand = AddBottlingToBatchCommandFromResourceAssembler.toCommandFromResource(resource);
+        var addBottlingToBatchCommand = AddBottlingToBatchCommandFromResourceAssembler.ToCommandFromResource(resource);
         var batch = await batchCommandService.Handle(addBottlingToBatchCommand, batchId);
         if (batch is null) return BadRequest();
         
